@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vande-Bharat@News</title>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./Vande_Bharat.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <img src="./Vande_Bharat.png" width="120px">
+
+        <div class="inputSearch desktop">
+            <form action="" id="searchForm">
+            <input type="text" placeholder="Type to search...." id="searchInput"/>
+
+            <span><i class="fa-solid fa-search"></i> </span>
+            </form>
+        </div>
+        <nav class="desktop">
+            <ul>
+            
+                    <li onclick="Search('ipl2023')">IPL 2023</li>
+                    <li onclick="Search('tech')">Tech</li>
+                    <li onclick="Search('food')">Food</li>
+                    <li onclick="Search('movies')">Movies</li>
+                    <li onclick="Search('business')">Business</li>
+                
+            </ul>
+        </nav>
+        <div class="menuBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <!--for mobile  -->
+        <div class="mobile hidden">
+            <nav>
+                <ul>
+                    <li onclick="Search('ipl2023')">IPL 2023</li>
+                    <li onclick="Search('tech')">Tech</li>
+                    <li onclick="Search('food')">Food</li>
+                    <li onclick="Search('movies')">Movies</li>
+                    <li onclick="Search('business')">Business</li>
+                </ul>
+
+            </nav>
+            <div class="inputSearch ">
+                <form id="searchInputMobile"   id="searchFormMobile">
+                <input type="text" placeholder="Type to search...." />
+
+                <span><i class="fa-solid fa-search"></i> </span>
+               </form>      
+            </div>
+            
+
+        </div>
+    </header>
+
+    <!-- main -->
+    <main>
+
+        
+        <div class="card">
+            <img src="" alt="">
+            <h4>
+                All the news from Ubisoft Forward 2023</h4>
+            <div class="publishbyDate">
+                <p>BBC News</p>
+                <span>•</span>
+                <p>20-04-2023</p>
+            </div>
+            <div class="desc">
+                <p>Ubisoft Forward 2023 is set to feature news and updates on all of Ubisoft’s popular franchises, including Prince of Persia, The Division, and of course, Assassin’s Creed.</p>
+            </div>
+        </div>
+
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!-- 23-06-2023 -->
+
