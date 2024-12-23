@@ -1,78 +1,83 @@
+// Configuration
 const API_KEY = "a0f31e2a63b04c059411450785303572";
-const url = "https://newsapi.org/v2/everything?q=";
-//  let DATA_Array = []  // article
+const BASE_URL = "https://newsapi.org/v2/everything?q=";
 
+// Fetch Data
 async function fetchData(query) {
-  const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-  // console.log(`${url}${query}&apiKey=${API_KEY}`)
-  const data = await res.json();
-  return data;
-  // console.log(data);
-  // DATA_Array = [...data.article]
-}
-
-fetchData("all").then(data => renderMain(data.articles))
-
-//menu btn
-let mobilemenu = document.querySelector(".mobile");
-let menuBtn = document.querySelector(".menuBtn");
-let menuBtnDisplay = true;
-
-menuBtn.addEventListener("click", () => {
-    mobilemenu.classList.toggle("hidden")
-});
-// console.log(DATA_Array)
-
-//render news
-function renderMain(arr){
-  // let main = document.querySelector("main")
-  let mainHTML = " ";
-  for (let i = 0; i < arr.length ; i++) {
-    if(arr[i].urlToImage){
-    mainHTML += ` <div class="card">
-        <a href=${arr[i].url}>
-        <img src=${arr[i].urlToImage} lazy="loading" />
-        <h4>${arr[i].title}</h4>
-        <div class="publishbyDate">
-            <p>${arr[i].source.name}</p>
-            <span>•</span>
-            <p>${new Date(arr[i].publishedAt).toLocaleDateString()}</p>
-        </div>
-        <div class="desc">
-        ${arr[i].description}
-    </div>
-    </a>
-
-    </div>
-    `
+    try {
+        const response = await fetch(`${BASE_URL}${query}&apiKey=${API_KEY}`);
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const data = await response.json();
+        return data.articles;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        alert('Unable to fetch news. Please try again later.');
     }
 }
-      document.querySelector("main").innerHTML = mainHTML
 
+// Render News
+function renderNews(articles) {
+    const mainElement = document.querySelector('main');
+    if (!articles || articles.length === 0) {
+        mainElement.innerHTML = '<p>No articles found. Please try a different query.</p>';
+        return;
+    }
+
+    const articlesHTML = articles.map(article => {
+        if (!article.urlToImage) return '';
+        return `
+            <div class="card">
+                <a href="${article.url}" target="_blank" rel="noopener noreferrer">
+                    <img src="${article.urlToImage}" alt="${article.title}" loading="lazy" />
+                    <h4>${article.title}</h4>
+                    <div class="publishbyDate">
+                        <p>${article.source.name}</p>
+                        <span>&bull;</span>
+                        <p>${new Date(article.publishedAt).toLocaleDateString()}</p>
+                    </div>
+                    <div class="desc">${article.description || 'No description available.'}</div>
+                </a>
+            </div>
+        `;
+    }).join('');
+
+    mainElement.innerHTML = articlesHTML;
 }
 
+// Event Listeners for Search
+const searchFormDesktop = document.getElementById('searchForm');
+const searchFormMobile = document.getElementById('searchFormMobile');
 
-  const searchBtn = document.getElementById("searchForm")
-  const searchBtnMobile = document.getElementById("searchFormMobile")
-  const searchInputMobile = document.getElementById("searchInputMobile")
-  const searchInput =  document.getElementById("searchInput")
-  searchBtn.addEventListener("submit", async(e)=>{
-               e.preventDefault()
-               console.log(searchInput.value)
-               const data = await fetchData(searchInput.value)
-              //  console.log(data)
+searchFormDesktop.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const query = document.getElementById('searchInput').value.trim();
+    if (query) {
+        const articles = await fetchData(query);
+        renderNews(articles);
+    }
+});
 
-               renderMain(data.articles)
-  })
+searchFormMobile.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const query = document.getElementById('searchInputMobile').value.trim();
+    if (query) {
+        const articles = await fetchData(query);
+        renderNews(articles);
+    }
+});
 
-  searchBtnMobile.addEventListener("submit", async(e)=>{
-               e.preventDefault()
-             
-               const data = await fetchData(searchInputMobile.value)
-               renderMain(data.articles)
-   })
+// Handle Category Clicks
+function handleCategoryClick(category) {
+    fetchData(category).then(renderNews);
+}
 
-  async function Search(query){
-    const data = await fetchData(query)
-    renderMain(data.articles)
-  }
+// Mobile Menu Toggle
+const menuBtn = document.querySelector('.menuBtn');
+const mobileMenu = document.querySelector('.mobile');
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Initial Fetch
+fetchData('all').then(renderNews);
